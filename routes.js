@@ -24,7 +24,14 @@ routes.post('/', (req, res)=>{
         // console.log(req.body)
         try {
             conn.query('INSERT INTO tb_servicios set ? ', [req.body], (error, rows) => {
-                res.send('Datos insertados correctamente!')
+                if(error) res.send('EL error en ejecucucion es: ' + error);
+                else{
+                    res.send({
+                        "status": 200,
+                        "mensaje": 'Datos insertados correctamente!', 
+                        "data": req.body
+                    })
+                }
             })
         } catch (error) {
             console.log('EL error en ejecucucion es: ' + error);
@@ -37,25 +44,29 @@ routes.post('/', (req, res)=>{
 // metodo Put - Actualizar Datos en tb_servicios
 
 routes.put('/:id', (req, res)=>{
+    const barberos = ['','Edward','Joan','Carlos']
+    let nombre_barbero = barberos[req.body.id_barbero]
+    const barbero= {
+        "nombre_barbero": nombre_barbero
+    }
+    const data = Object.assign(req.body,barbero)    
     req.getConnection((error, conn) => {
-        const barberos = ['','Edward','Joan','Carlos']
-        const nombre_barbero = barberos[req.params.id]
-        console.log(nombre_barbero)
-         const barbero= {
-             "nombre_barbero": req.params.id
-         }
-         const body = Object.assign(req.body,barbero)    
-         console.log(body)
-        //  console.log(barberos[1])
-        // try {
-        //     conn.query('UPDATE tb_servicios SET ? WHERE id = ? ', [req.body, req.params.id], (error, rows) => {
-        //         res.send('Datos Actualizados correctamente!')
-        //         console.log('Datos Actualizados correctamente!')
-        //     })
-        // } catch (error) {
-        //     console.log('EL error en ejecucucion es: ' + error);
-        //     res.send(error)
-        // }
+        try {
+            console.log(data)
+            conn.query('UPDATE tb_servicios SET ? WHERE id = ? ', [data, req.params.id], (error, rows) => {
+                if(error) res.send('EL error en ejecucucion es: ' + error);
+                else{
+                    res.send({
+                        "status": 200,
+                        "mensaje": 'Datos Actualizados correctamente!', 
+                        "data": data
+                    })
+                }
+            })
+        } catch (error) {
+            console.log('EL error en ejecucucion es: ' + error);
+            res.send(error)
+        }
     })
 })
 
