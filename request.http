@@ -1,0 +1,26 @@
+###
+GET http://localhost:9000/api HTTP/1.1
+
+###
+POST http://localhost:9000/api HTTP/1.1
+Content-Type: application/json
+
+{
+    "valor": 21,
+    "fecha": "2022-02-22 00:04:17.0",
+    "id_barbero": 3
+}
+
+###
+PUT http://localhost:9000/api/4 HTTP/1.1
+Content-Type: application/json
+
+{
+    "valor": 15000,
+    "fecha": "2050-02-22 00:04:17.0",
+    "id_barbero": 3
+}
+
+###
+DELETE http://localhost:9000/api/1 HTTP/1.1
+
